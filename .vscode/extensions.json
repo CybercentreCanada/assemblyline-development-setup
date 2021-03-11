@@ -2,7 +2,6 @@
   "recommendations": [
     "ms-python.python",
     "ms-toolsai.jupyter",
-    "kiteco.kite",
     "richie5um2.vscode-sort-json"
   ]
 }
