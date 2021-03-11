@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -10,6 +7,121 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "[Core] CLI - Command line interface",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-base/assemblyline/run/cli.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "[Core] Alerter",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/alerter/run_alerter.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Dispatcher",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/dispatching/dispatcher.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Expiry",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/expiry/run_expiry.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Metrics Heartbeat",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_heartbeat_manager.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Metrics Aggregator",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_metrics_aggregator.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Statistics Aggregator",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_statistics_aggregator.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Workflow",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/workflow/run_workflow.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[DATA] Create default users",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-base/assemblyline/odm/random_data/create_test_data.py",
+            "args": ["nosvc", "nosigs"],
+            "console": "internalConsole"
+        },
+        {
+            "name": "[DATA] Generate random data",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-base/assemblyline/odm/random_data/create_test_data.py",
+            "args": ["full"],
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Service Server] API Server",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "assemblyline-service-server/assemblyline_service_server/app.py"
+            },
+            "args": [
+                "run",
+                "--port=5003",
+                "--host=0.0.0.0",
+                "--no-debugger"
+            ],
+            "jinja": true,
+            "console": "internalConsole"
+        },
+        {
+            "name": "[UI] API Server",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "assemblyline-ui/assemblyline_ui/app.py"
+            },
+            "args": [
+                "run",
+                "--port=5000",
+                "--host=0.0.0.0",
+                "--no-debugger"
+            ],
+            "jinja": true,
+            "console": "internalConsole"
+        },
+        {
+            "name": "[UI] Socket Server",
+            "env": {"DEBUG": "True", "GEVENT_SUPPORT": "True"},
+            "gevent": true,
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-ui/assemblyline_ui/socketsrv.py",
+            "console": "internalConsole"
         }
     ]
 }
