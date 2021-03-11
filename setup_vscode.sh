@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/bash -x
 
 # Setup dependencies
 sudo apt install python3.8 python3.8-dev python3.8-venv
@@ -14,18 +14,18 @@ git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git
 
 # Setup venv
 python3.8 -m venv venv
-source venv/bin/activate
-pip install -U pip
-pip install -U pytest pytest-cov fakeredis[lua] retrying codecov pylint pep8 autopep8 ipython
-pip install -e ./assemblyline-base
-pip install -e ./assemblyline-core
-pip install -e ./assemblyline-service-server
-pip install -e ./assemblyline-service-client
-pip install -e ./assemblyline-ui
-pip install -e ./assemblyline-v4-service
+venv/bin/pip install -U pip
+venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov pylint pep8 autopep8 ipython
+venv/bin/pip install -e ./assemblyline-base
+venv/bin/pip install -e ./assemblyline-core
+venv/bin/pip install -e ./assemblyline-service-server
+venv/bin/pip install -e ./assemblyline-service-client
+venv/bin/pip install -e ./assemblyline-ui
+venv/bin/pip install -e ./assemblyline-v4-service
 
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Self destruct!
 rm -rf .git
 rm -rf setup_dev.sh
+rm -rf README.md
