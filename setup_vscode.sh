@@ -28,6 +28,6 @@ venv/bin/pip install -e ./assemblyline-v4-service
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Self destruct!
-rm -rf .git
+rm -rf .git*
 rm -rf setup_vscode.sh
 rm -rf README.md
