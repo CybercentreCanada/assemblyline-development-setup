@@ -84,32 +84,14 @@
             "name": "[Service Server] API Server",
             "type": "python",
             "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "assemblyline-service-server/assemblyline_service_server/app.py"
-            },
-            "args": [
-                "run",
-                "--port=5003",
-                "--host=0.0.0.0",
-                "--no-debugger"
-            ],
+            "program": "assemblyline-service-server/assemblyline_service_server/app.py",
             "console": "internalConsole"
         },
         {
             "name": "[UI] API Server",
             "type": "python",
             "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "assemblyline-ui/assemblyline_ui/app.py"
-            },
-            "args": [
-                "run",
-                "--port=5000",
-                "--host=0.0.0.0",
-                "--no-debugger"
-            ],
+            "program": "assemblyline-ui/assemblyline_ui/app.py",
             "console": "internalConsole"
         },
         {
