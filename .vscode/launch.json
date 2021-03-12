@@ -37,6 +37,13 @@
             "console": "internalConsole"
         },
         {
+            "name": "[Core] Ingester",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/ingester/__main__.py",
+            "console": "internalConsole"
+        },
+        {
             "name": "[Core] Metrics Heartbeat",
             "type": "python",
             "request": "launch",
