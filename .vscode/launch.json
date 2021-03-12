@@ -51,10 +51,32 @@
             "console": "internalConsole"
         },
         {
+            "name": "[Core] Scaler",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/scaler/run_scaler.py",
+            "env": {
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
+            "console": "internalConsole"
+        },
+        {
             "name": "[Core] Statistics Aggregator",
             "type": "python",
             "request": "launch",
             "program": "assemblyline-core/assemblyline_core/metrics/run_statistics_aggregator.py",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Core] Updater",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/updater/run_updater.py",
+            "env": {
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
             "console": "internalConsole"
         },
         {
