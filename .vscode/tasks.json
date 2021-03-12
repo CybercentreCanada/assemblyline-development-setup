@@ -1,0 +1,108 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Docker Compose - Dependencies (Basic)",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose-minimal.yml up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/depends",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Docker Compose - Dependencies (Basic + Kibana)",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/depends",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Docker Compose - Core components",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/core",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Container - Frontend",
+            "type": "shell",
+            "command": "docker run -p 3000:3000 cccs/assemblyline-ui-frontend",
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Container - ResultSample",
+            "type": "shell",
+            "options": {"env": {"LOCAL_IP": "al_service_server"}},
+            "command": "docker run --env SERVICE_API_HOST=http://${LOCAL_IP}:5003 --network=host cccs/assemblyline-service-resultsample",
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Docker Compose - Scaler and Updater",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose-sca-upd.yml up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/core",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "Docker Compose - Services",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/services",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "PYTest Dependencies - Base",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/test",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "PYTest Dependencies - Core",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-core/test",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "PYTest Dependencies - Service Server",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-service-server/test",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        },
+        {
+            "label": "PYTest Dependencies - UI or All",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-ui/test",
+            },
+            "problemMatcher": [],
+            "runOptions": {"instanceLimit": 1}
+        }
+    ]
+}
