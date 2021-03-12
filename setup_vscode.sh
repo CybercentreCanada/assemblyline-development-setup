@@ -1,7 +1,5 @@
 
-#!/bin/sh
-
-set -x
+#!/bin/sh -x
 
 # Setup dependencies
 sudo apt install python3.7 python3.7-dev python3.7-venv
