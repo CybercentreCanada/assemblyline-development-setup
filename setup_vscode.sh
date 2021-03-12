@@ -23,6 +23,7 @@ venv/bin/pip install -e ./assemblyline-service-client
 venv/bin/pip install -e ./assemblyline-ui
 venv/bin/pip install -e ./assemblyline-v4-service
 
+# Remove temporary created file during install 
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Self destruct!
