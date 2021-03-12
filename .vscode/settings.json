@@ -3,17 +3,18 @@
     "editor.rulers": [120],
     "editor.tabSize": 4,
     "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "python.formatting.provider": "autopep8",
     "python.formatting.autopep8Args": [
         "--max-line-length",
         "120",
         "--experimental"
     ],
-    "python.linting.pylintEnabled": false,
+    "python.formatting.provider": "autopep8",
+    "python.linting.enabled": true,
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pycodestyleArgs": ["--max-line-length=120"],
-    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestPath": "."
 }
