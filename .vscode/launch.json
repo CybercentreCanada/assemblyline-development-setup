@@ -26,7 +26,7 @@
             "name": "[Core] Dispatcher",
             "type": "python",
             "request": "launch",
-            "program": "assemblyline-core/assemblyline_core/dispatching/dispatcher.py",
+            "program": "assemblyline-core/assemblyline_core/dispatching/__main__.py",
             "console": "internalConsole"
         },
         {
@@ -94,7 +94,6 @@
                 "--host=0.0.0.0",
                 "--no-debugger"
             ],
-            "jinja": true,
             "console": "internalConsole"
         },
         {
@@ -111,12 +110,10 @@
                 "--host=0.0.0.0",
                 "--no-debugger"
             ],
-            "jinja": true,
             "console": "internalConsole"
         },
         {
             "name": "[UI] Socket Server",
-            "env": {"DEBUG": "True", "GEVENT_SUPPORT": "True"},
             "gevent": true,
             "type": "python",
             "request": "launch",
