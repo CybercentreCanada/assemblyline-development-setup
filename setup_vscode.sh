@@ -4,7 +4,7 @@
 set -x
 
 # Setup dependencies
-sudo apt install python3.8 python3.8-dev python3.8-venv
+sudo apt install python3.7 python3.7-dev python3.7-venv
 
 # Clone git repos
 git clone git@github.com:CybercentreCanada/assemblyline-base.git
@@ -15,7 +15,7 @@ git clone git@github.com:CybercentreCanada/assemblyline-service-client.git
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git
 
 # Setup venv
-python3.8 -m venv venv
+python3.7 -m venv venv
 venv/bin/pip install -U pip
 venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov pylint pep8 autopep8 ipython
 venv/bin/pip install -e ./assemblyline-base
