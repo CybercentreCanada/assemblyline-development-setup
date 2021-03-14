@@ -43,7 +43,6 @@ python3.7 -m venv venv
 venv/bin/pip install -U pip
 venv/bin/pip install -U wheel
 venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov pylint pep8 autopep8 ipython
-venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov pylint pep8 autopep8 ipython
 venv/bin/pip install -e ./assemblyline-base
 venv/bin/pip install -e ./assemblyline-core
 venv/bin/pip install -e ./assemblyline-service-server
