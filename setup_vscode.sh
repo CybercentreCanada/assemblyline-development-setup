@@ -14,7 +14,6 @@ fi
 # Setup sudoless docker 
 sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker 
 
 # Download and install docker compose
 if ! type docker-compose > /dev/null
