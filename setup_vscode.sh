@@ -1,5 +1,8 @@
 #!/bin/sh -x
 
+# Prepare sysctl for VSCode
+sudo sysctl -w fs.inotify.max_user_watches=524288
+
 # Add Docker if missing
 if ! type docker > /dev/null
 then
