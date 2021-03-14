@@ -1,7 +1,7 @@
 #!/bin/sh -x
 
 # Add Docker if missing
-if ! command -v docker &> /dev/null
+if ! type docker > /dev/null
 then
     sudo apt-get update
     sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -12,7 +12,7 @@ then
 fi
 
 # Download and install docker compose
-if ! command -v docker-compose &> /dev/null
+if ! type docker-compose > /dev/null
 then
     sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
@@ -20,7 +20,8 @@ then
 fi
 
 # Setup dependencies
-sudo apt-get update && apt-get install -yy python3-venv python3.7 python3.7-dev python3.7-venv build-essential libffi-dev libfuzzy-dev build-essential libffi-dev libfuzzy-dev
+sudo apt-get update 
+sudo apt-get install -yy python3-venv python3.7 python3.7-dev python3.7-venv build-essential libffi-dev libfuzzy-dev build-essential libffi-dev libfuzzy-dev
 
 # Clone git repos
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
