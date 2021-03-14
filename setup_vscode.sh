@@ -23,12 +23,12 @@ fi
 sudo apt install python3.7 python3.7-dev python3.7-venv
 
 # Clone git repos
-git clone git@github.com:CybercentreCanada/assemblyline-base.git
-git clone git@github.com:CybercentreCanada/assemblyline-core.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-server.git
-git clone git@github.com:CybercentreCanada/assemblyline-ui.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-client.git
-git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git
+git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
+git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
+git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
+git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
 # Setup venv
 python3.7 -m venv venv
