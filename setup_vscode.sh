@@ -20,7 +20,7 @@ then
 fi
 
 # Setup dependencies
-sudo apt install -y python3-venv python3.7 python3.7-dev python3.7-venv
+sudo apt-get update && apt-get install -yy python3-venv python3.7 python3.7-dev python3.7-venv build-essential libffi-dev libfuzzy-dev build-essential libffi-dev libfuzzy-dev
 
 # Clone git repos
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
