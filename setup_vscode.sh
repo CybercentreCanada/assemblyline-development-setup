@@ -21,10 +21,7 @@ fi
 
 # Setup dependencies
 sudo apt-get update 
-sudo apt-get install -yy \ 
-    python3-venv python3.7 python3.7-dev python3.7-venv \
-    libffi6 libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 \
-    build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
+sudo apt-get install -yy python3-venv python3.7 python3.7-dev python3.7-venv libffi6 libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
 
 # Clone git repos
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
