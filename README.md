@@ -23,7 +23,7 @@ The setup vscode environment script assumes the following:
     cd ~/git
 
     # Clone repo
-    git clone git@github.com:cccs-sgaron/alv4_setup.git alv4
+    git clone https://github.com/cccs-sgaron/alv4_setup.git alv4
 
     # Run script
     cd alv4
