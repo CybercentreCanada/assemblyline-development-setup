@@ -15,6 +15,7 @@ The setup vscode environment script assumes the following:
 
 - You are running this on a Ubuntu machine / VM (18.04 and up)
 - VSCode does not have to be running on the same host were you run this script so you can run this setup script on the target VM of a remote development setup
+- You have read the setup_vscode.sh script, this script will install and configure packages for ease of use. If you are uncomfortable which some of the changes that it make, you should comment them before running the script.
 
 ## Installation instruction
 
