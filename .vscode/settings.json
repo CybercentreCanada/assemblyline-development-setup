@@ -14,10 +14,11 @@
     ],
     "python.formatting.provider": "autopep8",
     "python.linting.enabled": true,
-    "python.linting.pycodestyleArgs": [
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
         "--max-line-length=120"
     ],
-    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pylintEnabled": false,
     "python.terminal.activateEnvironment": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestPath": ".",
