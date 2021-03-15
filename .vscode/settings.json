@@ -19,6 +19,7 @@
     ],
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pylintEnabled": false,
+    "python.terminal.activateEnvironment": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestPath": ".",
     "taskExplorer.enableAnsiconForAnt": false,
