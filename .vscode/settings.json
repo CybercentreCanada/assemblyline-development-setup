@@ -19,6 +19,7 @@
         "--max-line-length=120"
     ],
     "python.linting.pylintEnabled": false,
+    "python.pythonPath": "venv/bin/python",
     "python.terminal.activateEnvironment": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestPath": ".",
