@@ -27,6 +27,9 @@
             "type": "python",
             "request": "launch",
             "program": "assemblyline-core/assemblyline_core/dispatching/__main__.py",
+            "env": {
+                "SKIP_SERVICE_SETUP": "true"
+            },
             "console": "internalConsole"
         },
         {
@@ -98,7 +101,10 @@
             "type": "python",
             "request": "launch",
             "program": "assemblyline-base/assemblyline/odm/random_data/create_test_data.py",
-            "args": ["nosvc", "nosigs"],
+            "args": [
+                "nosvc",
+                "nosigs"
+            ],
             "console": "internalConsole"
         },
         {
@@ -106,7 +112,9 @@
             "type": "python",
             "request": "launch",
             "program": "assemblyline-base/assemblyline/odm/random_data/create_test_data.py",
-            "args": ["full"],
+            "args": [
+                "full"
+            ],
             "console": "internalConsole"
         },
         {

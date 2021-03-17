@@ -9,7 +9,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/dev/depends",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Docker Compose - Dependencies (Basic + Kibana)",
@@ -19,7 +21,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/dev/depends",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Docker Compose - Core components",
@@ -29,20 +33,30 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/dev/core",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Container - Frontend",
             "type": "shell",
             "command": "docker run -p 3000:3000 cccs/assemblyline-ui-frontend",
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Container - ResultSample",
             "type": "shell",
-            "options": {"env": {"LOCAL_IP": "al_service_server"}},
+            "options": {
+                "env": {
+                    "LOCAL_IP": "172.17.0.1"
+                }
+            },
             "command": "docker run --env SERVICE_API_HOST=http://${LOCAL_IP}:5003 --network=host cccs/assemblyline-service-resultsample",
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Docker Compose - Scaler and Updater",
@@ -52,7 +66,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/dev/core",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "Docker Compose - Services",
@@ -62,7 +78,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/dev/services",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "PYTest Dependencies - Base",
@@ -72,7 +90,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-base/test",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "PYTest Dependencies - Core",
@@ -82,7 +102,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-core/test",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "PYTest Dependencies - Service Server",
@@ -92,7 +114,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-service-server/test",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         },
         {
             "label": "PYTest Dependencies - UI or All",
@@ -102,7 +126,9 @@
                 "cwd": "${workspaceFolder}/assemblyline-ui/test",
             },
             "problemMatcher": [],
-            "runOptions": {"instanceLimit": 1}
+            "runOptions": {
+                "instanceLimit": 1
+            }
         }
     ]
 }
