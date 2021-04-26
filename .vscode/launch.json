@@ -125,6 +125,24 @@
             "console": "internalConsole"
         },
         {
+            "name": "[Service] ResultSample - LIVE",
+            "type": "python",
+            "request": "launch",
+            "program": "../assemblyline_v4_service/run_service.py",
+            "env": {
+                "SERVICE_PATH": "assemblyline_result_sample_service.result_sample.ResultSample"
+            },
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/assemblyline-v4-service/assemblyline_result_sample_service"
+        },
+        {
+            "name": "[Service] TaskHandler",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-service-client/assemblyline_service_client/task_handler.py",
+            "console": "internalConsole"
+        },
+        {
             "name": "[UI] API Server",
             "type": "python",
             "request": "launch",
