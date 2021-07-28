@@ -28,7 +28,9 @@ fi
 
 # Setup dependencies
 sudo apt-get update 
-sudo apt-get install -yy python3-venv python3.7 python3.7-dev python3.7-venv libffi6 || sudo apt-get install -yy python3-venv python3.8 python3.8-dev python3.8-venv libffi7 
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get install -yy python3-venv python3.9 python3.9-dev python3.9-venv libffi7 
 sudo apt-get install -yy libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
 
 # Allow connections to github.com via SSH
@@ -43,7 +45,7 @@ git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || gi
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
 # Setup venv
-python3.7 -m venv venv || python3.8 -m venv venv
+python3.9 -m venv venv
 venv/bin/pip install -U pip
 venv/bin/pip install -U wheel
 venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov flake8 pep8 autopep8 ipython
