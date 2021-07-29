@@ -78,7 +78,7 @@ then
   echo "Setting up services ..."
 
   # Grab current directory
-  cwd=`cwd`
+  cwd=`pwd`
 
   # Creating services directory
   mkdir -p ../services
