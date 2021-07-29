@@ -102,6 +102,9 @@ then
   venv/bin/pip install -e $cwd/assemblyline-service-client
   venv/bin/pip install -e $cwd/assemblyline-v4-service
 
+  # Remove temporary created file during install
+  rm -rf $cwd/assemblyline-base/assemblyline/common/frequency.c
+
   # Clone git repos
   git clone git@github.com:CybercentreCanada/assemblyline-service-antivirus.git || git clone https://github.com/CybercentreCanada/assemblyline-service-antivirus.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-apkaye.git || git clone https://github.com/CybercentreCanada/assemblyline-service-apkaye.git
