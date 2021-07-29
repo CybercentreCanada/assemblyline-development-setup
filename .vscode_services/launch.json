@@ -9,6 +9,13 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "[Service] TaskHandler",
+            "type": "python",
+            "request": "launch",
+            "module": "assemblyline_service_client.task_handler",
+            "console": "internalConsole"
+        },
+        {
             "name": "[Service] Safelist - LIVE",
             "type": "python",
             "request": "launch",
@@ -18,13 +25,6 @@
             },
             "console": "internalConsole",
             "cwd": "${workspaceFolder}/assemblyline-service-safelist"
-        },
-        {
-            "name": "[Service] TaskHandler",
-            "type": "python",
-            "request": "launch",
-            "module": "assemblyline_service_client.task_handler",
-            "console": "internalConsole"
         },
         {
             "name": "[Updater] Safelist - Create config",
