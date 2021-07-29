@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "[Service] Safelist - LIVE",
+            "type": "python",
+            "request": "launch",
+            "module": "assemblyline_v4_service.run_service",
+            "env": {
+                "SERVICE_PATH": "safelist.Safelist"
+            },
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/assemblyline-service-safelist"
+        },
+        {
+            "name": "[Service] TaskHandler",
+            "type": "python",
+            "request": "launch",
+            "module": "assemblyline_service_client.task_handler",
+            "console": "internalConsole"
+        },
+        {
+            "name": "[Updater] Safelist - Create config",
+            "type": "python",
+            "request": "launch",
+            "program": "create_updater_config.py",
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/assemblyline-service-safelist/test"
+        },
+        {
+            "name": "[Updater] Safelist - Run Updater",
+            "type": "python",
+            "request": "launch",
+            "program": "updater.py",
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/assemblyline-service-safelist"
+        },
+    ]
+}
