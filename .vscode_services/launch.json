@@ -41,6 +41,6 @@
             "program": "updater.py",
             "console": "internalConsole",
             "cwd": "${workspaceFolder}/assemblyline-service-safelist"
-        },
+        }
     ]
 }
