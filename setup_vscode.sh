@@ -89,7 +89,14 @@ then
   python3.9 -m venv venv
   venv/bin/pip install -U pip
   venv/bin/pip install -U wheel
-  venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov flake8 pep8 autopep8 ipython packaging gitpython faker requests_mock hachoir
+
+  # Install vscode extension dependencies
+  venv/bin/pip install -U pytest pytest-cov codecov flake8 pep8 autopep8 ipython
+
+  # Install AL tests dependencies
+  venv/bin/pip install -U packaging fakeredis[lua] retrying gitpython faker requests_mock hachoir mwcp
+
+  # Link services to checkout core components
   venv/bin/pip install -e $cwd/assemblyline-base
   venv/bin/pip install -e $cwd/assemblyline-core
   venv/bin/pip install -e $cwd/assemblyline-service-client
