@@ -5,6 +5,8 @@
     "richie5um2.vscode-sort-json",
     "ms-azuretools.vscode-docker",
     "spmeesseman.vscode-taskexplorer",
-    "brainfit.vscode-importmagic"
+    "brainfit.vscode-importmagic",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "mindaro.mindaro"
   ]
 }

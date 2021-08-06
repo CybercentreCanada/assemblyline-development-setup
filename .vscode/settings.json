@@ -40,5 +40,22 @@
     "taskExplorer.enablePython": false,
     "taskExplorer.enableRuby": false,
     "taskExplorer.enableSideBar": true,
-    "taskExplorer.enableTsc": false
+    "taskExplorer.enableTsc": false,
+    "vs-kubernetes": {
+        "vs-kubernetes.namespace": "al",
+        "vs-kubernetes.kubectl-path": "/snap/kubectl/current/kubectl",
+        "vs-kubernetes.helm-path": "/snap/helm/current/helm",
+        "vs-kubernetes.minikube-path": "/snap/bin/microk8s",
+        "vs-kubernetes.kubectlVersioning": "user-provided",
+        "vs-kubernetes.outputFormat": "yaml",
+        "vs-kubernetes.kubeconfig": "placeholder/config",
+        "vs-kubernetes.knownKubeconfigs": [],
+        "vs-kubernetes.autoCleanupOnDebugTerminate": false,
+        "vs-kubernetes.nodejs-autodetect-remote-root": true,
+        "vs-kubernetes.nodejs-remote-root": "",
+        "vs-kubernetes.nodejs-debug-port": 9229,
+        "vs-kubernetes.local-tunnel-debug-provider": "",
+        "checkForMinikubeUpgrade": false,
+        "imageBuildTool": "Docker"
+    }
 }

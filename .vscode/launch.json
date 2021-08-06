@@ -156,6 +156,144 @@
             "request": "launch",
             "program": "assemblyline-ui/assemblyline_ui/socketsrv.py",
             "console": "internalConsole"
+        },
+        {
+            "name": "[Kubernetes][Core] Alerter",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/alerter/run_alerter.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Dispatcher",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/dispatching/__main__.py",
+            "env": {
+                "SKIP_SERVICE_SETUP": "true"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Expiry",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/expiry/run_expiry.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Ingester",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/ingester/__main__.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Metrics Heartbeat",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_heartbeat_manager.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Metrics Aggregator",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_metrics_aggregator.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Scaler",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/scaler/run_scaler.py",
+            "env": {
+                "KUBECONFIG": "~/.kube/al.config",
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Statistics Aggregator",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/metrics/run_statistics_aggregator.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Updater",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/updater/run_updater.py",
+            "env": {
+                "KUBECONFIG": "~/.kube/al.config",
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Core] Workflow",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/workflow/run_workflow.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kuberenetes][Service Server] API Server",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-service-server/assemblyline_service_server/app.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][Service] ResultSample - LIVE",
+            "type": "python",
+            "request": "launch",
+            "program": "../assemblyline_v4_service/run_service.py",
+            "env": {
+                "SERVICE_PATH": "assemblyline_result_sample_service.result_sample.ResultSample"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource",
+            "cwd": "${workspaceFolder}/assemblyline-v4-service/assemblyline_result_sample_service"
+        },
+        {
+            "name": "[Kubernetes][Service] TaskHandler",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-service-client/assemblyline_service_client/task_handler.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][UI] API Server",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-ui/assemblyline_ui/app.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
+        },
+        {
+            "name": "[Kubernetes][UI] Socket Server",
+            "gevent": true,
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-ui/assemblyline_ui/socketsrv.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
         }
     ]
 }
