@@ -179,11 +179,6 @@ then
   sudo chmod 777 $HOME/.kube/al.config
 
   sed -i "s|placeholder/config|$HOME/.kube/al.config|" $cwd/.vscode/settings.json
-  sudo -- bash -ce  'echo -e "127.0.0.1\tregistry.localhost" >> /etc/hosts'
-  # sudo cat <<EOT >> /var/snap/microk8s/current/args/containerd-template.toml
-  #       [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.localhost"]
-  #         endpoint = ["http://registry.localhost:32000"]
-  # EOT
 
   # Return to directory
   cd $cwd
