@@ -60,6 +60,7 @@ git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || gi
 git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
 git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
+git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
 
 # Setup venv
 python3.9 -m venv venv
@@ -72,6 +73,7 @@ venv/bin/pip install -e ./assemblyline-service-server
 venv/bin/pip install -e ./assemblyline-service-client
 venv/bin/pip install -e ./assemblyline-ui
 venv/bin/pip install -e ./assemblyline-v4-service
+venv/bin/pip install -e ./assemblyline_client
 
 # Remove temporary created file during install
 rm -rf assemblyline-base/assemblyline/common/frequency.c
