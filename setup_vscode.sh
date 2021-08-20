@@ -159,7 +159,7 @@ then
 
   # Pre-requisites from appliance setup
   sudo snap install microk8s --classic
-  sudo microk8s enable dns ha-cluster ingress storage metrics-server registry
+  sudo microk8s enable dns ha-cluster storage metrics-server registry
   sudo snap install helm --classic
   sudo mkdir /var/snap/microk8s/current/bin
   sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
@@ -172,6 +172,14 @@ then
 
   # Will follow the default steps for creating the deployment
   sudo microk8s start
+
+  # Deploy an ingress controller
+  sudo microk8s kubectl create ns ingress
+  sudo microk8s helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  sudo microk8s helm repo update
+  sudo microk8s helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.hostPort.enabled=true -n ingress
+
+  # Deploy Assemblyline
   sudo microk8s kubectl create namespace al
   sudo microk8s kubectl apply -f ./deployment/secrets.yaml --namespace=al
   sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
