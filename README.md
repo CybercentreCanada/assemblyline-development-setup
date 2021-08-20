@@ -2,12 +2,14 @@
 
 This repo will set you up with everything required to do dev on Assemblyline 4 core using VSCode. It will setup for you the following things:
 
-- Install AL4 development dependencies
+- Install AL4 development dependencies (Docker-Compose & Kubernetes)
 - Create a virtual python environment for your project
 - Create Run targets inside VSCode for all core components and other important scripts
-- Create Tasks inside VSCode to run the various Docker compose files needed for dev
+- Create Tasks inside VSCode for development using Docker-Compose & Kubernetes
 - Setup our code formatting standards
-- Recommend you the VSCode extensions needed to use this environment
+- Install microK8S and deploy a small cluster which will be stopped so you can start it at your convenience
+
+We recommend installing the VSCode extensions needed to use this environment
 
 ## Pre-requisites
 
@@ -15,7 +17,8 @@ The setup vscode environment script assumes the following:
 
 - You are running this on a Ubuntu machine / VM (20.04 and up)
 - VSCode does not have to be running on the same host were you run this script so you can run this setup script on the target VM of a remote development setup
-- You have read the setup_vscode.sh script, this script will install and configure packages for ease of use. If you are uncomfortable which some of the changes that it make, you should comment them before running the script.
+- You have read the setup_vscode.sh script, this script will install and configure packages for ease of use.
+  - **If you are uncomfortable which some of the changes that it makes, you should comment them before running the script.**
 
 ## Installation instruction
 

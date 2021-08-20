@@ -1,15 +1,12 @@
 #!/bin/sh -x
 
-usage() { echo "Usage: $0 [-h] [-s] [-k]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-h] [-s]" 1>&2; exit 1; }
 
 # Get command line options
 while getopts "skh" arg; do
   case $arg in
     s) # Setup services as well
       services="yes"
-      ;;
-    k) # Setup Kubernetes pre-reqs
-      kubernetes="yes"
       ;;
     h) # Show usage
       usage
@@ -150,50 +147,51 @@ then
 fi
 
 # Kubernetes Development Setup
-if [ $kubernetes ]
-then
-  echo "Setting up Kubernetes Development Setup ..."
+echo "Setting up Kubernetes Development Setup ..."
 
-  # Grab current directory
-  cwd=`pwd`
+# Grab current directory
+cwd=`pwd`
 
-  # Pre-requisites from appliance setup
-  sudo snap install microk8s --classic
-  sudo microk8s enable dns ha-cluster storage metrics-server registry
-  sudo snap install helm --classic
-  sudo mkdir /var/snap/microk8s/current/bin
-  sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
+# Pre-requisites from appliance setup
+sudo snap install microk8s --classic
+sudo microk8s enable dns ha-cluster storage metrics-server registry
+sudo snap install helm --classic
+sudo mkdir /var/snap/microk8s/current/bin
+sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
 
-  # Kubernetes directory in Project
-  mkdir k8s && cd ./k8s
-  git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
-  mkdir deployment
-  cp ./assemblyline-helm-chart/appliance/*.yaml ./deployment
+# Kubernetes directory in Project
+mkdir k8s && cd ./k8s
+git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
+mkdir deployment
+cp ./assemblyline-helm-chart/appliance/*.yaml ./deployment
 
-  # Will follow the default steps for creating the deployment
-  sudo microk8s start
+# Will follow the default steps for creating the deployment
+sudo microk8s start
 
-  # Deploy an ingress controller
-  sudo microk8s kubectl create ns ingress
-  sudo microk8s helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-  sudo microk8s helm repo update
-  sudo microk8s helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.hostPort.enabled=true -n ingress
+# Deploy an ingress controller
+sudo microk8s kubectl create ns ingress
+sudo microk8s helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+sudo microk8s helm repo update
+sudo microk8s helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.hostPort.enabled=true -n ingress
 
-  # Deploy Assemblyline
-  sudo microk8s kubectl create namespace al
-  sudo microk8s kubectl apply -f ./deployment/secrets.yaml --namespace=al
-  sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
+# Deploy Assemblyline
+sudo microk8s kubectl create namespace al
+sudo microk8s kubectl apply -f ./deployment/secrets.yaml --namespace=al
+sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
 
-  # Additional steps for development
-  sudo ln /var/snap/microk8s/current/credentials/client.config $HOME/.kube/al.config
-  sudo chmod 777 $HOME/.kube/al.config
+# Additional steps for development
+sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
+sudo chmod 777 $HOME/.kube/config
 
-  sed -i "s|placeholder/config|$HOME/.kube/al.config|" $cwd/.vscode/settings.json
+sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
 
-  # Return to directory
-  cd $cwd
+# Let user start up the cluster if they want to
+sudo microk8s stop
 
-fi
+# Return to directory
+cd $cwd
+
+
 
 # Self destruct!
 rm -rf .git*
