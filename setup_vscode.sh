@@ -160,11 +160,15 @@ then
     sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
 
     # Additional steps for development
+    sudo mkdir $HOME/.kube/
     sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
-    sudo chmod 777 $HOME/.kube/config
+    sudo -R chmod 777 $HOME/.kube/
 
     # Let user start up the cluster if they want to
     sudo microk8s stop
+
+    # Install Lens
+    sudo snap install kontena-lens --classic
 
     # Return to directory
     cd $cwd
