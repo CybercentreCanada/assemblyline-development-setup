@@ -130,8 +130,8 @@ then
     sudo ln -s /snap/bin/kubectl /var/snap/microk8s/current/bin/kubectl
     sudo snap install helm --classic
     sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
-    sudo microk8s enable dns ha-cluster storage metrics-server registry
     sudo microk8s start
+    sudo microk8s enable dns ha-cluster storage metrics-server registry
 
     # Build dev image and push to local registry
     sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/assemblyline:dev
