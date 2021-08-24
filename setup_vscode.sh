@@ -9,8 +9,8 @@ read repositories
 repositories="${repositories:=a}"
 
 echo "2. Which debugging infrastructure do you want to use?
-    a. Kubernetes (microK8S) (Default)
-    b. Docker-Compose"
+    a. Kubernetes via microK8S
+    b. Docker-Compose (Default)"
 read infrastructure
 infrastructure="${infrastructure:=a}"
 
@@ -27,9 +27,9 @@ read services
 services="${services:=no}"
 
 echo "Options Summary:
-    1. Which repositories would you like to setup? Option $repositories
-    2. Which debugging infrastructure do you want to use? Option $infrastructure
-    3. Would you like to setup all official services? $services"
+1. Which repositories would you like to setup? Option $repositories
+2. Which debugging infrastructure do you want to use? Option $infrastructure
+3. Would you like to setup all official services? $services"
 read -n 1 -p "Continue?"
 
 # Prepare sysctl for VSCode
@@ -79,33 +79,33 @@ venv/bin/pip install -e ./assemblyline_client
 # Remove temporary created file during install
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
-# Setup Infra
-if [ "$infrastructure" = "b" ]
+# Docker-Compose Setup
+# Add Docker if missing
+if ! type docker > /dev/null
 then
-    # Docker-Compose Setup
-    # Add Docker if missing
-    if ! type docker > /dev/null
-    then
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo apt-key fingerprint 0EBFCD88
-        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-    fi
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo apt-key fingerprint 0EBFCD88
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+fi
 
-    # Setup sudoless docker
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
+# Setup sudoless docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
 
-    # Download and install docker compose
-    if ! type docker-compose > /dev/null
-    then
-        sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        sudo curl -L https://raw.githubusercontent.com/docker/compose/1.28.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-    fi
-else
+# Download and install docker compose
+if ! type docker-compose > /dev/null
+then
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo curl -L https://raw.githubusercontent.com/docker/compose/1.28.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+fi
+
+# Setup Kubernetes
+if [ "$infrastructure" = "a" ]
+then
     # Kubernetes Setup
     echo "Setting up Kubernetes Development Setup ..."
     if [ "$offline" == "yes" ]
