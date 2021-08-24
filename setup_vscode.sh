@@ -29,9 +29,8 @@ services="${services:=no}"
 echo "Options Summary:
 1. Which repositories would you like to setup? $repositories
 2. Which debugging infrastructure do you want to use? $infrastructure
-3. Would you like to setup all official services? $services
-Continue?"
-read
+3. Would you like to setup all official services? $services"
+read -p "Continue?"
 
 # Prepare sysctl for VSCode
 sudo sysctl -w fs.inotify.max_user_watches=524288
@@ -109,7 +108,7 @@ then
 else
     # Kubernetes Setup
     echo "Setting up Kubernetes Development Setup ..."
-    if [ $offline ]
+    if [ "$offline" == "yes" ]
     then
         sudo snap download microk8s
         sudo snap ack microk8s_*.assert
@@ -140,6 +139,7 @@ else
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
+    mkdir deployment
     cp ../helm_deployment/*.yaml ./deployment
 
     sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
@@ -170,7 +170,7 @@ else
     cd $cwd
 fi
 
-if [ $services ]
+if [ "$services" == "yes" ]
 then
   echo "Setting up services ..."
 
