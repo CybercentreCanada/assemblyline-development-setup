@@ -27,11 +27,11 @@ The setup vscode environment script assumes the following:
     cd ~/git
 
     # Clone repo
-    git clone https://github.com/cccs-sgaron/alv4_setup.git alv4
+    git clone https://github.com/CybercentreCanada/assemblyline-development-setup alv4
 
     # Run script
     cd alv4
-    ./setup_vscode.sh
+    bash ./setup_vscode.sh
 
 ## Post-installation instructions
 

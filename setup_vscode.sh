@@ -1,25 +1,25 @@
-#!/bin/sh -x
+#!/bin/bash -x
 
 echo "Welcome to the Assemblyline Developer Setup!"
 echo "1. Which repositories would you like to setup?
-a. Core + Services (Default)
-b. Services
-c. Core"
+    a. Core + Services (Default)
+    b. Services
+    c. Core"
 read repositories
 repositories="${repositories:=a}"
 
 echo "2. Which debugging infrastructure do you want to use?
-a. Kubernetes (microK8S) (Default)
-b. Docker-Compose"
+    a. Kubernetes (microK8S) (Default)
+    b. Docker-Compose"
 read infrastructure
 infrastructure="${infrastructure:=a}"
 
-if [$infrastructure = "a"]
+offline="no"
+if [ "$infrastructure" == "a" ]
 then
 echo "2a. Offline deployment of microK8S? (yes/no)"
 read offline
 offline="${offline:=no}"
-echo $offline
 fi
 
 echo "3. Would you like to setup all official services? (yes/no)"
@@ -27,10 +27,10 @@ read services
 services="${services:=no}"
 
 echo "Options Summary:
-1. Which repositories would you like to setup? $repositories
-2. Which debugging infrastructure do you want to use? $infrastructure
-3. Would you like to setup all official services? $services"
-read -p "Continue?"
+    1. Which repositories would you like to setup? Option $repositories
+    2. Which debugging infrastructure do you want to use? Option $infrastructure
+    3. Would you like to setup all official services? $services"
+read -n 1 -p "Continue?"
 
 # Prepare sysctl for VSCode
 sudo sysctl -w fs.inotify.max_user_watches=524288
@@ -131,6 +131,7 @@ else
     sudo snap install helm --classic
     sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
     sudo microk8s enable dns ha-cluster storage metrics-server registry
+    sudo microk8s start
 
     # Build dev image and push to local registry
     sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/assemblyline:dev
@@ -143,10 +144,9 @@ else
     cp ../helm_deployment/*.yaml ./deployment
 
     sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
-    sed -i "s|placeholder_for_packages|$HOME/assemblyline-development-setup|" $cwd/k8s/deployment/values.yaml
+    sed -i "s|placeholder_for_packages|$cwd|" $cwd/k8s/deployment/values.yaml
 
-    # Will follow the default steps for creating the deployment
-    sudo microk8s start
+
 
     # Deploy an ingress controller
     sudo microk8s kubectl create ns ingress
