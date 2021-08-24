@@ -7,14 +7,12 @@ b. Services
 c. Core"
 read repositories
 repositories="${repositories:=a}"
-echo $repositories
 
 echo "2. Which debugging infrastructure do you want to use?
 a. Kubernetes (microK8S) (Default)
 b. Docker-Compose"
 read infrastructure
 infrastructure="${infrastructure:=a}"
-echo $infrastructure
 
 if [$infrastructure = "a"]
 then
@@ -27,14 +25,20 @@ fi
 echo "3. Would you like to setup all official services? (yes/no)"
 read services
 services="${services:=no}"
-echo $services
+
+echo "Options Summary:
+1. Which repositories would you like to setup? $repositories
+2. Which debugging infrastructure do you want to use? $infrastructure
+3. Would you like to setup all official services? $services
+Continue?"
+read
 
 # Prepare sysctl for VSCode
 sudo sysctl -w fs.inotify.max_user_watches=524288
 
 # Start with cloning repositories
 # Clone for Core
-if [$repositories = "a"] || [$repositories = "c"]
+if [ "$repositories" = "a" ] || [ "$repositories" = "c" ]
 then
     git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
     git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
@@ -44,7 +48,7 @@ then
 fi
 
 # Clone for Services
-if [$repositories = "a"] || [$repositories = "b"]
+if [ "$repositories" = "a" ] || [ "$repositories" = "b" ]
 then
     git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
     git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
@@ -77,7 +81,7 @@ venv/bin/pip install -e ./assemblyline_client
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Setup Infra
-if [$infrastructure = "b"]
+if [ "$infrastructure" = "b" ]
 then
     # Docker-Compose Setup
     # Add Docker if missing
@@ -136,7 +140,6 @@ else
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
-    mkdir deployment
     cp ../helm_deployment/*.yaml ./deployment
 
     sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
