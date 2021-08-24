@@ -134,7 +134,7 @@ then
     sudo microk8s enable dns ha-cluster storage metrics-server registry
 
     # Build dev image and push to local registry
-    sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/assemblyline:dev
+    sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
     sudo docker push localhost:32000/assemblyline:dev
 
     # Kubernetes directory in Project
@@ -162,7 +162,7 @@ then
     # Additional steps for development
     sudo mkdir $HOME/.kube/
     sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
-    sudo -R chmod 777 $HOME/.kube/
+    sudo chmod -R 777 $HOME/.kube/
 
     # Let user start up the cluster if they want to
     sudo microk8s stop
