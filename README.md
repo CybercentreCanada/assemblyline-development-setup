@@ -7,7 +7,7 @@ This repo will set you up with everything required to do dev on Assemblyline 4 c
 - Create Run targets inside VSCode for all core components and other important scripts
 - Create Tasks inside VSCode for development using Docker-Compose & Kubernetes
 - Setup our code formatting standards
-- Install microK8S and deploy a small cluster which will be stopped so you can start it at your convenience
+- (Optional) Install microK8S and deploy a small cluster which will be stopped so you can start it at your convenience
 
 We recommend installing the VSCode extensions needed to use this environment
 

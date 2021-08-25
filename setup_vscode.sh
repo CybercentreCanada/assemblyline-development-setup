@@ -79,7 +79,6 @@ venv/bin/pip install -e ./assemblyline_client
 # Remove temporary created file during install
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
-# Docker-Compose Setup
 # Add Docker if missing
 if ! type docker > /dev/null
 then
@@ -112,12 +111,13 @@ then
     then
         sudo snap download microk8s
         sudo snap ack microk8s_*.assert
-        sudo snap install microk8s_*.snap
+        sudo snap install microk8s_*.snap --classic
         sudo rm -f microk8s_*.*
     else
         sudo snap install microk8s --classic
     fi
 
+    # Add user to microk8s group
     sudo usermod -a -G microk8s $USER
     sudo chown -f -R $USER ~/.kube
 
