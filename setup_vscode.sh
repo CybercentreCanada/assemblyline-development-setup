@@ -40,6 +40,11 @@ sudo sysctl -w fs.inotify.max_user_watches=524288
 if [ "$repositories" = "a" ] || [ "$repositories" = "c" ]
 then
     git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
+    ############################# REMOVE BEFORE MERGE TO MASTER ########################
+    cd assemblyline-base
+    git checkout k8s/dev_setup
+    cd ..
+    ####################################################################################
     git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
     git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
     git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
@@ -143,6 +148,11 @@ then
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
+    ############################# REMOVE BEFORE MERGE TO MASTER ########################
+    cd assemblyline-helm-chart
+    git checkout k8s/dev_setup
+    cd ..
+    ####################################################################################
     mkdir deployment
     cp ../helm_deployment/*.yaml ./deployment
 
