@@ -135,7 +135,7 @@ then
 
     # Build dev image and push to local registry
     sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
-    sudo docker push localhost:32000/assemblyline:dev
+    sudo docker push localhost:32000/cccs/assemblyline:dev
 
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
