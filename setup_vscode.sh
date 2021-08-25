@@ -102,6 +102,9 @@ then
     sudo curl -L https://raw.githubusercontent.com/docker/compose/1.28.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 fi
 
+# Deploy local Docker registry
+sudo docker run -dp 32000:5000 --restart=always --name registry registry
+
 # Setup Kubernetes
 if [ "$infrastructure" = "a" ]
 then
@@ -132,10 +135,6 @@ then
     sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
     sudo microk8s start
     sudo microk8s enable dns ha-cluster storage metrics-server
-
-    # Deploy local registry
-    sudo microk8s kubectl create ns container-registry
-    sudo microk8s helm install stable/docker-registry -n container-registry --set service.port=32000
 
     # Build dev image and push to local registry
     sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
