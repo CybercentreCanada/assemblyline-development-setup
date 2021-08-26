@@ -7,7 +7,5 @@
     "spmeesseman.vscode-taskexplorer",
     "brainfit.vscode-importmagic",
     // KUBERNETES
-    "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "mindaro.mindaro"
   ]
 }
