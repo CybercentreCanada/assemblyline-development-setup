@@ -1,0 +1,106 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "[Core] Alerter",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/alerter/run_alerter.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.alerter"
+        },
+        {
+            "name": "[Core] Dispatcher",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/dispatching/__main__.py",
+            "env": {
+                "SKIP_SERVICE_SETUP": "true"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.dispatcher"
+        },
+        {
+            "name": "[Core] Expiry",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/expiry/run_expiry.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.expiry"
+        },
+        {
+            "name": "[Core] Ingester",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/ingester/__main__.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.ingester"
+        },
+        {
+            "name": "[Core] Scaler",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/scaler/run_scaler.py",
+            "env": {
+                "KUBECONFIG": "~/.kube/al.config",
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.scaler"
+        },
+        {
+            "name": "[Core] Updater",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/updater/run_updater.py",
+            "env": {
+                "KUBECONFIG": "~/.kube/al.config",
+                "FILE_UPDATE_VOLUME": "/tmp/update_data",
+                "FILE_UPDATE_DIRECTORY": "/tmp/update_data"
+            },
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.updater"
+        },
+        {
+            "name": "[Core] Workflow",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-core/assemblyline_core/workflow/run_workflow.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.workflow"
+        },
+        {
+            "name": "[Kuberenetes][Service Server] API Server",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-service-server/assemblyline_service_server/app.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.service-server"
+        },
+        {
+            "name": "[UI] API Server",
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-ui/assemblyline_ui/app.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.ui"
+        },
+        {
+            "name": "[UI] Socket Server",
+            "gevent": true,
+            "type": "python",
+            "request": "launch",
+            "program": "assemblyline-ui/assemblyline_ui/socketsrv.py",
+            "console": "internalConsole",
+            "preLaunchTask": "bridge-to-kubernetes.socketio"
+        }
+    ]
+}

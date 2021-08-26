@@ -1,62 +1,34 @@
-#!/bin/bash -x
+#!/bin/bash
 
-echo "Welcome to the Assemblyline Developer Setup!"
-echo "1. Which repositories would you like to setup?
-    a. Core + Services (Default)
-    b. Services
-    c. Core"
-read repositories
-repositories="${repositories:=a}"
+usage() { echo "Usage: $0 [-h] [-s] [-k]" 1>&2; exit 1; }
 
-echo "2. Which debugging infrastructure do you want to use?
-    a. Kubernetes via microK8S
-    b. Docker-Compose (Default)"
-read infrastructure
-infrastructure="${infrastructure:=a}"
-
-offline="no"
-if [ "$infrastructure" == "a" ]
-then
-echo "2a. Offline deployment of microK8S? (yes/no)"
-read offline
-offline="${offline:=no}"
-fi
-
-echo "3. Would you like to setup all official services? (yes/no)"
-read services
-services="${services:=no}"
-
-echo "Options Summary:
-1. Which repositories would you like to setup? Option $repositories
-2. Which debugging infrastructure do you want to use? Option $infrastructure
-3. Would you like to setup all official services? $services"
-read -n 1 -p "Continue?"
+# Get command line options
+while getopts "skh" arg; do
+  case $arg in
+    s) # Setup services as well
+      services="yes"
+      ;;
+    s) # Setup for Kubernetes (alpha)
+      kubernetes="yes"
+      ;;
+    h) # Show usage
+      usage
+      ;;
+  esac
+done
 
 # Prepare sysctl for VSCode
 sudo sysctl -w fs.inotify.max_user_watches=524288
+sudo snap install code --classic
 
 # Start with cloning repositories
-# Clone for Core
-if [ "$repositories" = "a" ] || [ "$repositories" = "c" ]
-then
-    git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
-    ############################# REMOVE BEFORE MERGE TO MASTER ########################
-    cd assemblyline-base
-    git checkout k8s/dev_setup
-    cd ..
-    ####################################################################################
-    git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
-    git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
-    git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
-    git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
-fi
-
-# Clone for Services
-if [ "$repositories" = "a" ] || [ "$repositories" = "b" ]
-then
-    git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
-    git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
-fi
+git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
+git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
+git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
+git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
+git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
 # Setup dependencies
 sudo apt-get update
@@ -111,19 +83,17 @@ fi
 sudo docker run -dp 32000:5000 --restart=always --name registry registry
 
 # Setup Kubernetes
-if [ "$infrastructure" = "a" ]
+if [ $kubernetes ]
 then
     # Kubernetes Setup
+
+    # (Offline installation)
+    # sudo snap download microk8s
+    # sudo snap ack microk8s_*.assert
+    # sudo snap install microk8s_*.snap --classic
+    # sudo rm -f microk8s_*.*
     echo "Setting up Kubernetes Development Setup ..."
-    if [ "$offline" == "yes" ]
-    then
-        sudo snap download microk8s
-        sudo snap ack microk8s_*.assert
-        sudo snap install microk8s_*.snap --classic
-        sudo rm -f microk8s_*.*
-    else
-        sudo snap install microk8s --classic
-    fi
+    sudo snap install microk8s --classic
 
     # Add user to microk8s group
     sudo usermod -a -G microk8s $USER
@@ -148,18 +118,15 @@ then
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
-    ############################# REMOVE BEFORE MERGE TO MASTER ########################
-    cd assemblyline-helm-chart
-    git checkout k8s/dev_setup
-    cd ..
-    ####################################################################################
     mkdir deployment
-    cp ../helm_deployment/*.yaml ./deployment
+    cp ../.kubernetes/*.yaml ./deployment
+
+    #Overwrite launch & tasks JSON
+    cp -f $cwd/.kubernetes/*.json $cwd/.vscode/
 
     sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
     sed -i "s|placeholder_for_packages|$cwd|" $cwd/k8s/deployment/values.yaml
-
-
+    sed -i 's|// KUBERNETES|"ms-kubernetes-tools\.vscode-kubernetes-tools",\n"mindaro\.mindaro"|' $cwd/k8s/deployment/values.yaml
 
     # Deploy an ingress controller
     sudo microk8s kubectl create ns ingress
@@ -177,9 +144,6 @@ then
     sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
     sudo chmod -R 777 $HOME/.kube/
 
-    # Let user start up the cluster if they want to
-    sudo microk8s stop
-
     # Install Lens
     sudo snap install kontena-lens --classic
 
@@ -187,7 +151,7 @@ then
     cd $cwd
 fi
 
-if [ "$services" == "yes" ]
+if [ $services ]
 then
   echo "Setting up services ..."
 
@@ -261,6 +225,9 @@ fi
 # Self destruct!
 rm -rf .git*
 rm -rf setup_vscode.sh
-rm -rf helm_deployment
+rm -rf .kubernetes
 rm -rf README.md
 rm -rf .vscode_services
+
+# Launch VSCode with workspace
+code $cwd

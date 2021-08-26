@@ -112,7 +112,7 @@ configuration:
       service_defaults:
         min_instances: 0
   logging:
-    log_level: WARNING
+    log_level: INFO
   services:
     # CPU reservation as been lowered so we could squeeze more services into smaller appliance
     #   If you are having issues with services timing out a lot under heavy load, bring it back
