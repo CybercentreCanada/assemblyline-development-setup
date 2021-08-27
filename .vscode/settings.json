@@ -57,5 +57,6 @@
         "vs-kubernetes.local-tunnel-debug-provider": "",
         "checkForMinikubeUpgrade": false,
         "imageBuildTool": "Docker"
-    }
+    },
+    "redhat.telemetry.enabled": false
 }

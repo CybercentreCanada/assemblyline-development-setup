@@ -6,7 +6,6 @@
     "ms-azuretools.vscode-docker",
     "spmeesseman.vscode-taskexplorer",
     "brainfit.vscode-importmagic",
-    "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "mindaro.mindaro"
+    // KUBERNETES
   ]
 }

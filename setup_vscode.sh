@@ -1,12 +1,15 @@
-#!/bin/sh -x
+#!/bin/bash
 
-usage() { echo "Usage: $0 [-h] [-s]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-h] [-s] [-k]" 1>&2; exit 1; }
 
 # Get command line options
 while getopts "skh" arg; do
   case $arg in
     s) # Setup services as well
       services="yes"
+      ;;
+    s) # Setup for Kubernetes (alpha)
+      kubernetes="yes"
       ;;
     h) # Show usage
       usage
@@ -16,6 +19,42 @@ done
 
 # Prepare sysctl for VSCode
 sudo sysctl -w fs.inotify.max_user_watches=524288
+sudo snap install code --classic
+
+# Start with cloning repositories
+git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
+git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
+git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
+git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
+git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
+git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
+
+# Setup dependencies
+sudo apt-get update
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get install -yy python3-venv python3.9 python3.9-dev python3.9-venv libffi7
+sudo apt-get install -yy libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
+
+# Allow connections to github.com via SSH
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+# Setup venv
+python3.9 -m venv venv
+venv/bin/pip install -U pip
+venv/bin/pip install -U wheel
+venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov flake8 pep8 autopep8 ipython
+venv/bin/pip install -e ./assemblyline-base
+venv/bin/pip install -e ./assemblyline-core
+venv/bin/pip install -e ./assemblyline-service-server
+venv/bin/pip install -e ./assemblyline-service-client
+venv/bin/pip install -e ./assemblyline-ui
+venv/bin/pip install -e ./assemblyline-v4-service
+venv/bin/pip install -e ./assemblyline_client
+
+# Remove temporary created file during install
+rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Add Docker if missing
 if ! type docker > /dev/null
@@ -40,40 +79,77 @@ then
     sudo curl -L https://raw.githubusercontent.com/docker/compose/1.28.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 fi
 
-# Setup dependencies
-sudo apt-get update
-sudo apt install -y software-properties-common
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt-get install -yy python3-venv python3.9 python3.9-dev python3.9-venv libffi7
-sudo apt-get install -yy libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
+# Deploy local Docker registry
+sudo docker run -dp 32000:5000 --restart=always --name registry registry
 
-# Allow connections to github.com via SSH
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+# Setup Kubernetes
+if [ $kubernetes ]
+then
+    # Kubernetes Setup
 
-# Clone git repos
-git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
-git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
-git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
-git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
-git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
+    # (Offline installation)
+    # sudo snap download microk8s
+    # sudo snap ack microk8s_*.assert
+    # sudo snap install microk8s_*.snap --classic
+    # sudo rm -f microk8s_*.*
+    echo "Setting up Kubernetes Development Setup ..."
+    sudo snap install microk8s --classic
 
-# Setup venv
-python3.9 -m venv venv
-venv/bin/pip install -U pip
-venv/bin/pip install -U wheel
-venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov flake8 pep8 autopep8 ipython
-venv/bin/pip install -e ./assemblyline-base
-venv/bin/pip install -e ./assemblyline-core
-venv/bin/pip install -e ./assemblyline-service-server
-venv/bin/pip install -e ./assemblyline-service-client
-venv/bin/pip install -e ./assemblyline-ui
-venv/bin/pip install -e ./assemblyline-v4-service
-venv/bin/pip install -e ./assemblyline_client
+    # Add user to microk8s group
+    sudo usermod -a -G microk8s $USER
+    sudo chown -f -R $USER ~/.kube
 
-# Remove temporary created file during install
-rm -rf assemblyline-base/assemblyline/common/frequency.c
+    # Grab current directory
+    cwd=`pwd`
+
+    # Pre-requisites from appliance setup
+    sudo mkdir /var/snap/microk8s/current/bin
+    sudo snap install kubectl --classic
+    sudo ln -s /snap/bin/kubectl /var/snap/microk8s/current/bin/kubectl
+    sudo snap install helm --classic
+    sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
+    sudo microk8s start
+    sudo microk8s enable dns ha-cluster storage metrics-server
+
+    # Build dev image and push to local registry
+    sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
+    sudo docker push localhost:32000/cccs/assemblyline:dev
+
+    # Kubernetes directory in Project
+    mkdir k8s && cd ./k8s
+    git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
+    mkdir deployment
+    cp ../.kubernetes/*.yaml ./deployment
+
+    #Overwrite launch & tasks JSON
+    cp -f $cwd/.kubernetes/*.json $cwd/.vscode/
+
+    sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
+    sed -i "s|placeholder_for_packages|$cwd|" $cwd/k8s/deployment/values.yaml
+    sed -i 's|// KUBERNETES|"ms-kubernetes-tools\.vscode-kubernetes-tools",\n"mindaro\.mindaro"|' $cwd/k8s/deployment/values.yaml
+
+    # Deploy an ingress controller
+    sudo microk8s kubectl create ns ingress
+    sudo microk8s helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    sudo microk8s helm repo update
+    sudo microk8s helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.hostPort.enabled=true -n ingress
+
+    # Deploy Assemblyline
+    sudo microk8s kubectl create namespace al
+    sudo microk8s kubectl apply -f ./deployment/secrets.yaml --namespace=al
+    sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
+
+    # Additional steps for development
+    sudo mkdir $HOME/.kube/
+    sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
+    sudo chmod -R 777 $HOME/.kube/
+
+    # Install Lens
+    sudo snap install kontena-lens --classic
+
+    # Return to directory
+    cd $cwd
+fi
 
 if [ $services ]
 then
@@ -146,55 +222,12 @@ then
   cd $cwd
 fi
 
-# Kubernetes Development Setup
-echo "Setting up Kubernetes Development Setup ..."
-
-# Grab current directory
-cwd=`pwd`
-
-# Pre-requisites from appliance setup
-sudo snap install microk8s --classic
-sudo microk8s enable dns ha-cluster storage metrics-server registry
-sudo snap install helm --classic
-sudo mkdir /var/snap/microk8s/current/bin
-sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm
-
-# Kubernetes directory in Project
-mkdir k8s && cd ./k8s
-git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
-mkdir deployment
-cp ./assemblyline-helm-chart/appliance/*.yaml ./deployment
-
-# Will follow the default steps for creating the deployment
-sudo microk8s start
-
-# Deploy an ingress controller
-sudo microk8s kubectl create ns ingress
-sudo microk8s helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-sudo microk8s helm repo update
-sudo microk8s helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.hostPort.enabled=true -n ingress
-
-# Deploy Assemblyline
-sudo microk8s kubectl create namespace al
-sudo microk8s kubectl apply -f ./deployment/secrets.yaml --namespace=al
-sudo microk8s helm install assemblyline ./assemblyline-helm-chart/assemblyline -f ./deployment/values.yaml -n al
-
-# Additional steps for development
-sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
-sudo chmod 777 $HOME/.kube/config
-
-sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
-
-# Let user start up the cluster if they want to
-sudo microk8s stop
-
-# Return to directory
-cd $cwd
-
-
-
 # Self destruct!
 rm -rf .git*
 rm -rf setup_vscode.sh
+rm -rf .kubernetes
 rm -rf README.md
 rm -rf .vscode_services
+
+# Launch VSCode with workspace
+code $cwd
