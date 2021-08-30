@@ -8,7 +8,7 @@ while getopts "skh" arg; do
     s) # Setup services as well
       services="yes"
       ;;
-    s) # Setup for Kubernetes (alpha)
+    k) # Setup for Kubernetes (alpha)
       kubernetes="yes"
       ;;
     h) # Show usage
