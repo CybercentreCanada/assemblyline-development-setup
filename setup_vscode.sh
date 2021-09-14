@@ -240,3 +240,4 @@ rm -rf .vscode_services
 
 echo "Setup script execution complete. Press enter to reboot..."
 read
+sudo reboot
