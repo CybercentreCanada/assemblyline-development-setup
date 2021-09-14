@@ -20,8 +20,11 @@ while getopts "cskh" arg; do
   esac
 done
 
+# Warmup sudo password
+sudo true
+
 # Install VSCode
-if [ $kubernetes ]
+if [ $code ]
 then
   sudo sysctl -w fs.inotify.max_user_watches=524288
   sudo snap install code --classic
