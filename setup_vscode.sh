@@ -1,10 +1,13 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [-h] [-s] [-k]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-c] [-h] [-s] [-k]" 1>&2; exit 1; }
 
 # Get command line options
-while getopts "skh" arg; do
+while getopts "cskh" arg; do
   case $arg in
+    c) # Install VSCode
+      code="yes"
+      ;;
     s) # Setup services as well
       services="yes"
       ;;
@@ -17,9 +20,12 @@ while getopts "skh" arg; do
   esac
 done
 
-# Prepare sysctl for VSCode
-sudo sysctl -w fs.inotify.max_user_watches=524288
-sudo snap install code --classic
+# Install VSCode
+if [ $kubernetes ]
+then
+  sudo sysctl -w fs.inotify.max_user_watches=524288
+  sudo snap install code --classic
+fi
 
 # Start with cloning repositories
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
@@ -229,5 +235,5 @@ rm -rf .kubernetes
 rm -rf README.md
 rm -rf .vscode_services
 
-# Launch VSCode with workspace
-code $cwd
+echo "Setup script execution complete. Press enter to reboot..."
+read
