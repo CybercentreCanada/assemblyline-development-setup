@@ -30,7 +30,7 @@ The setup script assumes the following:
     # Clone repo
     git clone https://github.com/CybercentreCanada/assemblyline-development-setup alv4
 
-    # Run script (with services [-s])
+    # Run script (with services [-s]) (install VSCode [-c]) 
     cd alv4
     ./setup_vscode.sh
 
