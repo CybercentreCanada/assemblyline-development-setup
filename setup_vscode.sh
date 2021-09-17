@@ -23,6 +23,77 @@ done
 # Warmup sudo password
 sudo true
 
+# Create Assemblyline folders
+sudo mkdir -p /etc/assemblyline
+sudo mkdir -p /var/cache/assemblyline
+sudo mkdir -p /var/lib/assemblyline
+sudo mkdir -p /var/log/assemblyline
+
+sudo chown $USER /etc/assemblyline
+sudo chown $USER /var/cache/assemblyline
+sudo chown $USER /var/lib/assemblyline
+sudo chown $USER /var/log/assemblyline
+
+# Create default classification.yml
+echo "
+enforce: false
+dynamic_groups: false
+" > /etc/assemblyline/classification.yml
+
+# Create default config.yml
+echo "
+auth:
+  internal:
+    enabled: true
+
+core:
+  alerter:
+    delay: 0
+  scaler:
+    service_defaults:
+      min_instances: 0
+  metrics:
+    apm_server:
+      server_url: http://localhost:8200/
+    elasticsearch:
+      hosts: [http://elastic:devpass@localhost]
+
+datastore:
+  ilm:
+    enabled: false
+    indexes:
+      alert:
+        unit: m
+      error:
+        unit: m
+      file:
+        unit: m
+      result:
+        unit: m
+      submission:
+        unit: m
+
+filestore:
+  cache:
+    - file:///var/cache/assemblyline/
+
+logging:
+  log_level: INFO
+  log_as_json: false
+
+services:
+  preferred_update_channel: dev
+
+system:
+  type: development
+
+ui:
+  audit: false
+  debug: false
+  enforce_quota: false
+  fqdn: `hostname -I | awk '{print $1}'`.nip.io
+" > /etc/assemblyline/config.yml
+
 # Install VSCode
 if [ $code ]
 then
