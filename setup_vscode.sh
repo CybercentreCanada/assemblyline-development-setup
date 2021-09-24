@@ -192,7 +192,7 @@ then
     sudo microk8s enable dns ha-cluster storage metrics-server
 
     # Build dev image and push to local registry
-    sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
+    sudo docker build . -f master.Dockerfile -t localhost:32000/cccs/assemblyline:dev
     sudo docker push localhost:32000/cccs/assemblyline:dev
 
     # Kubernetes directory in Project
@@ -200,6 +200,7 @@ then
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
     mkdir deployment
     cp ../.kubernetes/*.yaml ./deployment
+    cp ../.kubernetes/*.Dockerfile ..
 
     #Overwrite launch & tasks JSON
     cp -f $cwd/.kubernetes/*.json $cwd/.vscode/
