@@ -193,6 +193,7 @@ then
 
     # Build dev image and push to local registry
     sudo docker build . -f master.Dockerfile -t localhost:32000/cccs/assemblyline:dev
+    sudo docker tag localhost:32000/cccs/assemblyline:dev cccs/assemblyline-v4-service-base
     sudo docker push localhost:32000/cccs/assemblyline:dev
 
     # Kubernetes directory in Project
@@ -225,8 +226,9 @@ then
     sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
     sudo chmod -R 777 $HOME/.kube/
 
-    # Install Lens
+    # Install Lens (GUI) and K9s (CLI)
     sudo snap install kontena-lens --classic
+    sudo snap install k9s
 
     # Return to directory
     cd $cwd
