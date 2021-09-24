@@ -24,6 +24,7 @@ ENV PATH=/var/lib/assemblyline/.local/bin:$PATH
 RUN pip install assemblyline[test] assemblyline_core[test] assemblyline_ui[test,scoketio] \
     assemblyline_client[test] assemblyline_service_server[test] \
     assemblyline_service_client[test] assemblyline_v4_service[test] \
+    debugpy \
     && pip uninstall -y assemblyline assemblyline_core assemblyline_ui \
     assemblyline_service_server assemblyline_client \
     assemblyline_service_client assemblyline_v4_service
