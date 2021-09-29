@@ -197,7 +197,7 @@ then
 
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
-    git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
+    git clone git@github.com:CybercentreCanada/assemblyline-helm-chart.git || git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
     mkdir deployment
     cp ../.kubernetes/*.yaml ./deployment
 
@@ -206,7 +206,7 @@ then
 
     sed -i "s|placeholder/config|$HOME/.kube/config|" $cwd/.vscode/settings.json
     sed -i "s|placeholder_for_packages|$cwd|" $cwd/k8s/deployment/values.yaml
-    sed -i 's|// KUBERNETES|"ms-kubernetes-tools\.vscode-kubernetes-tools",\n"mindaro\.mindaro"|' $cwd/k8s/deployment/values.yaml
+    sed -i 's|// KUBERNETES|"ms-kubernetes-tools\.vscode-kubernetes-tools",\n"mindaro\.mindaro"|' $cwd/.vscode/extensions.json 
 
     # Deploy an ingress controller
     sudo microk8s kubectl create ns ingress
