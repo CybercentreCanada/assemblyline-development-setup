@@ -196,6 +196,12 @@ then
     sudo docker tag localhost:32000/cccs/assemblyline:dev cccs/assemblyline-v4-service-base
     sudo docker push localhost:32000/cccs/assemblyline:dev
 
+    # Pull latest frontend image and retag and push to local registry
+    sudo docker push cccs/assemblyline-ui-frontend:latest
+    sudo docker tag cccs/assemblyline-ui-frontend:latest localhost:32000/cccs/assemblyline-ui-frontend:dev
+    sudo docker push localhost:32000/cccs/assemblyline-ui-frontend:dev
+
+
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
