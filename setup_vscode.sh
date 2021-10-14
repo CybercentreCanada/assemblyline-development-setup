@@ -192,14 +192,22 @@ then
     sudo microk8s enable dns ha-cluster storage metrics-server
 
     # Build dev image and push to local registry
-    sudo docker build . -f assemblyline-base/docker/al_dev/Dockerfile -t localhost:32000/cccs/assemblyline:dev
+    sudo docker build . -f master.Dockerfile -t localhost:32000/cccs/assemblyline:dev
+    sudo docker tag localhost:32000/cccs/assemblyline:dev cccs/assemblyline-v4-service-base
     sudo docker push localhost:32000/cccs/assemblyline:dev
+
+    # Pull latest frontend image and retag and push to local registry
+    sudo docker push cccs/assemblyline-ui-frontend:latest
+    sudo docker tag cccs/assemblyline-ui-frontend:latest localhost:32000/cccs/assemblyline-ui-frontend:dev
+    sudo docker push localhost:32000/cccs/assemblyline-ui-frontend:dev
+
 
     # Kubernetes directory in Project
     mkdir k8s && cd ./k8s
     git clone git@github.com:CybercentreCanada/assemblyline-helm-chart.git || git clone https://github.com/CybercentreCanada/assemblyline-helm-chart.git
     mkdir deployment
     cp ../.kubernetes/*.yaml ./deployment
+    cp ../.kubernetes/*.Dockerfile ..
 
     #Overwrite launch & tasks JSON
     cp -f $cwd/.kubernetes/*.json $cwd/.vscode/
@@ -224,8 +232,9 @@ then
     sudo cp /var/snap/microk8s/current/credentials/client.config $HOME/.kube/config
     sudo chmod -R 777 $HOME/.kube/
 
-    # Install Lens
+    # Install Lens (GUI) and K9s (CLI)
     sudo snap install kontena-lens --classic
+    sudo snap install k9s
 
     # Return to directory
     cd $cwd

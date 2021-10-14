@@ -1,13 +1,12 @@
 # Tags for the containers used
-coreVersion: 'dev'
-sapiVersion: 'dev'
-uiVersion: 'dev'
+release: "dev"
 
 # Images for containers used
 assemblylineCoreImage: localhost:32000/cccs/assemblyline
 assemblylineUIImage: localhost:32000/cccs/assemblyline
 assemblylineSocketIOImage: localhost:32000/cccs/assemblyline
 assemblylineServiceAPIImage: localhost:32000/cccs/assemblyline
+assemblylineFrontendImage: localhost:32000/cccs/assemblyline-ui-frontend
 assemblylineServiceImagePrefix: localhost:32000/cccs/assemblyline-service-
 
 autoInstallServices: []
@@ -19,7 +18,6 @@ ingressAnnotations:
 enableCoreDebugging: true
 # Set the default storage classes for microk8s
 redisStorageClass: microk8s-hostpath
-updateStorageClass: microk8s-hostpath
 persistantStorageClass: microk8s-hostpath
 
 # Turn off replication since there is only one elastic node
@@ -56,9 +54,6 @@ seperateInternalELKStack: false
 # Set kibana to use the internal ELK Stack if logging is turned on
 kibana:
   elasticsearchHosts: http://datastore-master:9200
-
-# Overwrites storage size for update-directory to save on space
-updateStorageSize: 20Gi
 
 # Stop reserving CPU for component
 #    NOTE: This prevent HPAs to scale core components, only use on very small
@@ -99,9 +94,6 @@ coreVolumes:
 coreMounts:
   - name: assemblyline-packages
     mountPath: /opt/alv4
-
-# No need to provide internal NFS since all pods will write to the same server
-internalNFS: false
 
 # Internal configuration for assemblyline components. See the assemblyline
 # administration documentation for more details.
