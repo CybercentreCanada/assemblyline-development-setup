@@ -58,21 +58,6 @@ core:
     elasticsearch:
       hosts: [http://elastic:devpass@localhost]
 
-datastore:
-  ilm:
-    enabled: false
-    indexes:
-      alert:
-        unit: m
-      error:
-        unit: m
-      file:
-        unit: m
-      result:
-        unit: m
-      submission:
-        unit: m
-
 filestore:
   cache:
     - file:///var/cache/assemblyline/
@@ -101,7 +86,10 @@ then
   sudo snap install code --classic
 fi
 
-# Start with cloning repositories
+# Allow connections to github.com via SSH
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+# Clone core repositories
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
 git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
 git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
@@ -115,16 +103,13 @@ sudo apt-get update
 sudo apt install -y software-properties-common
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt-get install -yy python3-venv python3.9 python3.9-dev python3.9-venv libffi7
-sudo apt-get install -yy libfuzzy2 libmagic1 libldap-2.4-2 libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
-
-# Allow connections to github.com via SSH
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+sudo apt-get install -yy libfuzzy2 libmagic1 libldap-common libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
 
 # Setup venv
 python3.9 -m venv venv
 venv/bin/pip install -U pip
 venv/bin/pip install -U wheel
-venv/bin/pip install -U pytest pytest-cov fakeredis[lua] retrying codecov flake8 pep8 autopep8 ipython
+venv/bin/pip install -U pytest fakeredis[lua] retrying flake8 pep8 autopep8 ipython
 venv/bin/pip install -e ./assemblyline-base
 venv/bin/pip install -e ./assemblyline-core
 venv/bin/pip install -e ./assemblyline-service-server
@@ -139,25 +124,22 @@ rm -rf assemblyline-base/assemblyline/common/frequency.c
 # Add Docker if missing
 if ! type docker > /dev/null
 then
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \
+      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update
-    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo apt-key fingerprint 0EBFCD88
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
 fi
 
 # Setup sudoless docker
 sudo groupadd docker
 sudo usermod -aG docker $USER
-
-# Download and install docker compose
-if ! type docker-compose > /dev/null
-then
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    sudo curl -L https://raw.githubusercontent.com/docker/compose/1.28.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-fi
 
 # Deploy local Docker registry
 sudo docker run -dp 32000:5000 --restart=always --name registry registry
@@ -258,7 +240,7 @@ then
   venv/bin/pip install -U wheel
 
   # Install vscode extension dependencies
-  venv/bin/pip install -U pytest pytest-cov codecov flake8 pep8 autopep8 ipython
+  venv/bin/pip install -U pytest flake8 pep8 autopep8 ipython
 
   # Install AL tests dependencies
   venv/bin/pip install -U packaging fakeredis[lua] retrying gitpython faker requests_mock hachoir mwcp

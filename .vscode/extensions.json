@@ -5,7 +5,6 @@
     "richie5um2.vscode-sort-json",
     "ms-azuretools.vscode-docker",
     "spmeesseman.vscode-taskexplorer",
-    "brainfit.vscode-importmagic",
     // KUBERNETES
   ]
 }
