@@ -99,11 +99,11 @@ git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || gi
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
 # Setup dependencies
-sudo apt-get update
-sudo apt install -y software-properties-common
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt-get install -yy python3-venv python3.9 python3.9-dev python3.9-venv libffi7
-sudo apt-get install -yy libfuzzy2 libmagic1 libldap-common libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
+sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+sudo DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:deadsnakes/ppa
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3-venv python3.9 python3.9-dev python3.9-venv libffi7
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libfuzzy2 libmagic1 libldap-common libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
 
 # Setup venv
 python3.9 -m venv venv
@@ -124,7 +124,7 @@ rm -rf assemblyline-base/assemblyline/common/frequency.c
 # Add Docker if missing
 if ! type docker > /dev/null
 then
-    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates curl gnupg
     sudo install -m 0755 -d /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -132,8 +132,8 @@ then
       "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
 fi
 
