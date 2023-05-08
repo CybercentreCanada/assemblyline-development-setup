@@ -9,6 +9,8 @@ This repo will setup everything required to do development on Assemblyline 4 usi
 - Create Tasks inside VSCode for development using Docker-Compose
 - Setup our code formatting standards
 - Deploy a local Docker registry on port 32000
+- (*Optional*) Load the code for all services in the git/services directory by using the `-s` flag. **This is not recommended, use only if you really need to.**
+- (*Optional*) If you prefer to run VSCode on your host and not on the dev machine/VM remove the `-c` flag so VSCode does not get installed. You'll have to install VSCode yourself on your desktop and connect to your dev environment via SSH.
 
 We recommend installing the VSCode extensions needed to use this environment once VSCode is launched in the workspace.
 
@@ -16,25 +18,26 @@ We recommend installing the VSCode extensions needed to use this environment onc
 
 The setup script assumes the following:
 
-- You are running this on a Ubuntu machine / VM (20.04 and up)
-- VSCode does not have to be running on the same host were you run this script so you can run this setup script on the target VM of a remote development setup
+- You are running this on a Ubuntu 20.04+ machine or VM with at least 4 cores and 8 GB of Ram. 
 - You have read the setup_vscode.sh script, this script will install and configure packages for ease of use.
   - **If you are uncomfortable which some of the changes that it makes, you should comment them before running the script.**
 
 ## Installation instruction
 
-    # Create your repo directory
-    mkdir -p ~/git
-    cd ~/git
+#### Create your git directory
 
-    # Clone repo
+    mkdir -p ~/git
+
+#### Clone repo
+
+    cd ~/git
     git clone https://github.com/CybercentreCanada/assemblyline-development-setup alv4
 
-    # Run script (with services [-s]) (install VSCode [-c]) 
-    cd alv4
-    ./setup_vscode.sh
+#### Run setup script 
 
+    cd ~/git/alv4
+    ./setup_vscode.sh -c
 
 ## Post-installation instructions
 
-When installation is complete, VSCode should launch in the development workspace. To take full advantage of this setup, we strongly advise installing the recommended extensions when prompted or typing '@recommended' in the Extensions tab.
+When first launching VSCode, we strongly advise installing the recommended extensions when prompted or typing '@recommended' in the Extensions tab. This ensures that you take full advantage of this setup.
