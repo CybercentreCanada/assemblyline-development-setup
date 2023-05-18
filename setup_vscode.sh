@@ -98,6 +98,8 @@ git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone 
 git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
+echo "PRIVATE_REGISTRY=$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000/" > assemblyline-base/dev/core/.env
+
 # Setup dependencies
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
@@ -143,6 +145,7 @@ sudo usermod -aG docker $USER
 
 # Deploy local Docker registry
 sudo docker run -dp 32000:5000 --restart=always --name registry registry
+echo "{ \"insecure-registries\":[\"$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000\"] }" | sudo tee /etc/docker/daemon.json
 
 # Setup Kubernetes
 if [ $kubernetes ]
@@ -297,6 +300,10 @@ then
   # Return to directory
   cd $cwd
 fi
+
+sudo docker-compose -f assemblyline-base/dev/depends/docker-compose-minimal.yml pull
+sudo docker-compose -f assemblyline-base/dev/core/docker-compose.yml pull
+sudo docker pull cccs/assemblyline-v4-service-base:stable
 
 # Self destruct!
 rm -rf .git*
