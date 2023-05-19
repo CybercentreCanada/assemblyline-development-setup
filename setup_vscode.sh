@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 usage() { echo "Usage: $0 [-c] [-h] [-s] [-k]" 1>&2; exit 1; }
 
@@ -122,7 +123,7 @@ venv/bin/pip install -e ./assemblyline_client
 rm -rf assemblyline-base/assemblyline/common/frequency.c
 
 # Add Docker if missing
-if ! type docker > /dev/null
+if ! type docker &> /dev/null
 then
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates curl gnupg
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -138,7 +139,7 @@ then
 fi
 
 # Setup sudoless docker
-sudo groupadd docker
+sudo groupadd docker 2>/dev/null || echo "Docker group found"
 sudo usermod -aG docker $USER
 
 # Deploy local Docker registry
