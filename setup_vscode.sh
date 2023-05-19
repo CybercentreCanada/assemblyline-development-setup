@@ -98,8 +98,6 @@ git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone 
 git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
 git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
 
-echo "PRIVATE_REGISTRY=$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000/" > assemblyline-base/dev/core/.env
-
 # Setup dependencies
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
@@ -145,6 +143,8 @@ sudo usermod -aG docker $USER
 
 # Deploy local Docker registry
 sudo docker run -dp 32000:5000 --restart=always --name registry registry
+
+echo "PRIVATE_REGISTRY=$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000/" > assemblyline-base/dev/core/.env
 echo "{ \"insecure-registries\":[\"$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000\"] }" | sudo tee /etc/docker/daemon.json
 
 # Setup Kubernetes
