@@ -87,17 +87,21 @@ then
   sudo snap install code --classic
 fi
 
+# Make sure known_hosts file exists
+mkdir -p ~/.ssh
+touch ~/.ssh/known_hosts
+
 # Allow connections to github.com via SSH
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 # Clone core repositories
-git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git
-git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git
-git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git
-git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git
-git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git
-git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git
+git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git || echo "assemblyline-base repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git || echo "assemblyline-core repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git || echo "assemblyline-service-server repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git || echo "assemblyline-ui repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git || echo "assemblyline_client repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git || echo "assemblyline-service-client repo already exists"
+git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git clone https://github.com/CybercentreCanada/assemblyline-v4-service.git || echo "assemblyline-v4-service repo already exists"
 
 # Setup dependencies
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
@@ -139,13 +143,14 @@ then
 fi
 
 # Setup sudoless docker
-sudo groupadd docker 2>/dev/null || echo "Docker group found"
+sudo groupadd docker 2>/dev/null || echo "Docker group already exists"
 sudo usermod -aG docker $USER
 
 # Deploy local Docker registry
-sudo docker run -dp 32000:5000 --restart=always --name registry registry
+sudo docker run -dp 32000:5000 --restart=always --name registry registry || echo "Docker registry already started"
 
 echo "PRIVATE_REGISTRY=$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000/" > assemblyline-base/dev/core/.env
+sudo mkdir -p /etc/docker/
 echo "{ \"insecure-registries\":[\"$(ip addr show docker0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):32000\"] }" | sudo tee /etc/docker/daemon.json
 
 # Setup Kubernetes
