@@ -276,7 +276,6 @@ then
   git clone git@github.com:CybercentreCanada/assemblyline-service-cuckoo.git || git clone https://github.com/CybercentreCanada/assemblyline-service-cuckoo.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-deobfuscripter.git || git clone https://github.com/CybercentreCanada/assemblyline-service-deobfuscripter.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-elf.git || git clone https://github.com/CybercentreCanada/assemblyline-service-elfparser.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-batchdeobfuscator.git || git clone https://github.com/CybercentreCanada/assemblyline-service-batchdeobfuscator.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-emlparser.git || git clone https://github.com/CybercentreCanada/assemblyline-service-emlparser.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-espresso.git || git clone https://github.com/CybercentreCanada/assemblyline-service-espresso.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-extract.git || git clone https://github.com/CybercentreCanada/assemblyline-service-extract.git
