@@ -40,7 +40,11 @@
         {
             "label": "Container - Frontend",
             "type": "shell",
-            "command": "docker run -p 3000:3000 cccs/assemblyline-ui-frontend",
+            "command": "docker-compose up al_frontend",
+            "options": {
+                "cwd": "${workspaceFolder}/assemblyline-base/dev/core",
+            },
+            "problemMatcher": [],
             "runOptions": {
                 "instanceLimit": 1
             }
