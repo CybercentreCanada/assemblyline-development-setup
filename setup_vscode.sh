@@ -264,30 +264,36 @@ then
   rm -rf $cwd/assemblyline-base/assemblyline/common/frequency.c
 
   # Clone git repos
-  git clone git@github.com:CybercentreCanada/assemblyline-service-apivector.git || git clone https://github.com/CybercentreCanada/assemblyline-service-apivector.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-ancestry.git || git clone https://github.com/CybercentreCanada/assemblyline-service-ancestry.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-antivirus.git || git clone https://github.com/CybercentreCanada/assemblyline-service-antivirus.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-apivector.git || git clone https://github.com/CybercentreCanada/assemblyline-service-apivector.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-apkaye.git || git clone https://github.com/CybercentreCanada/assemblyline-service-apkaye.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-avclass.git || git clone https://github.com/CybercentreCanada/assemblyline-service-avclass.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-batchdeobfuscator.git || git clone https://github.com/CybercentreCanada/assemblyline-service-batchdeobfuscator.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-beaver.git || git clone https://github.com/CybercentreCanada/assemblyline-service-beaver.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-capa.git || git clone https://github.com/CybercentreCanada/assemblyline-service-capa.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-cape.git || git clone https://github.com/CybercentreCanada/assemblyline-service-cape.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-characterize.git || git clone https://github.com/CybercentreCanada/assemblyline-service-characterize.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-configextractor.git || git clone https://github.com/CybercentreCanada/assemblyline-service-configextractor.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-cuckoo.git || git clone https://github.com/CybercentreCanada/assemblyline-service-cuckoo.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-deobfuscripter.git || git clone https://github.com/CybercentreCanada/assemblyline-service-deobfuscripter.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-elf.git || git clone https://github.com/CybercentreCanada/assemblyline-service-elfparser.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-document-preview.git || git clone https://github.com/CybercentreCanada/assemblyline-service-document-preview.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-elf.git || git clone https://github.com/CybercentreCanada/assemblyline-service-elf.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-elfparser.git || git clone https://github.com/CybercentreCanada/assemblyline-service-elfparser.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-emlparser.git || git clone https://github.com/CybercentreCanada/assemblyline-service-emlparser.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-espresso.git || git clone https://github.com/CybercentreCanada/assemblyline-service-espresso.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-extract.git || git clone https://github.com/CybercentreCanada/assemblyline-service-extract.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-floss.git || git clone https://github.com/CybercentreCanada/assemblyline-service-floss.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-frankenstrings.git || git clone https://github.com/CybercentreCanada/assemblyline-service-frankenstrings.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-intezer.git || git clone https://github.com/CybercentreCanada/assemblyline-service-intezer.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-iparse.git || git clone https://github.com/CybercentreCanada/assemblyline-service-iparse.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-metadefender.git || git clone https://github.com/CybercentreCanada/assemblyline-service-metadefender.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-jsjaws.git || git clone https://github.com/CybercentreCanada/assemblyline-service-jsjaws.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-metapeek.git || git clone https://github.com/CybercentreCanada/assemblyline-service-metapeek.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-oletools.git || git clone https://github.com/CybercentreCanada/assemblyline-service-oletools.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-onenote.git || git clone https://github.com/CybercentreCanada/assemblyline-service-onenote.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-overpower.git || git clone https://github.com/CybercentreCanada/assemblyline-service-overpower.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-pdfid.git || git clone https://github.com/CybercentreCanada/assemblyline-service-pdfid.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-peepdf.git || git clone https://github.com/CybercentreCanada/assemblyline-service-peepdf.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-pe.git || git clone https://github.com/CybercentreCanada/assemblyline-service-pe.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-peepdf.git || git clone https://github.com/CybercentreCanada/assemblyline-service-peepdf.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-pixaxe.git || git clone https://github.com/CybercentreCanada/assemblyline-service-pixaxe.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-safelist.git || git clone https://github.com/CybercentreCanada/assemblyline-service-safelist.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-sigma.git || git clone https://github.com/CybercentreCanada/assemblyline-service-sigma.git
@@ -297,8 +303,7 @@ then
   git clone git@github.com:CybercentreCanada/assemblyline-service-unpacker.git || git clone https://github.com/CybercentreCanada/assemblyline-service-unpacker.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-unpacme.git || git clone https://github.com/CybercentreCanada/assemblyline-service-unpacme.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-vipermonkey.git || git clone https://github.com/CybercentreCanada/assemblyline-service-vipermonkey.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-virustotal-dynamic.git || git clone https://github.com/CybercentreCanada/assemblyline-service-virustotal-dynamic.git
-  git clone git@github.com:CybercentreCanada/assemblyline-service-virustotal-static.git || git clone https://github.com/CybercentreCanada/assemblyline-service-virustotal-static.git
+  git clone git@github.com:CybercentreCanada/assemblyline-service-virustotal.git || git clone https://github.com/CybercentreCanada/assemblyline-service-virustotal.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-XLMMacroDeobfuscator.git || git clone https://github.com/CybercentreCanada/assemblyline-service-XLMMacroDeobfuscator.git
   git clone git@github.com:CybercentreCanada/assemblyline-service-yara.git || git clone https://github.com/CybercentreCanada/assemblyline-service-yara.git
 
