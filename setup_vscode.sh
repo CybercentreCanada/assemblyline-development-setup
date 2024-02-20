@@ -107,11 +107,11 @@ git clone git@github.com:CybercentreCanada/assemblyline-v4-service.git || git cl
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
 sudo DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:deadsnakes/ppa
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3-venv python3.9 python3.9-dev python3.9-venv libffi7
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3-venv python3.11 python3.11-dev python3.11-venv libffi7
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libfuzzy2 libmagic1 libldap-common libsasl2-2 build-essential libffi-dev libfuzzy-dev libldap2-dev libsasl2-dev libssl-dev
 
 # Setup venv
-python3.9 -m venv venv
+python3.11 -m venv venv
 venv/bin/pip install -U pip
 venv/bin/pip install -U wheel
 venv/bin/pip install -U pytest fakeredis[lua] retrying flake8 pep8 autopep8 ipython
@@ -244,7 +244,7 @@ then
   cd ../services
 
   # Setting up services venv
-  python3.9 -m venv venv
+  python3.11 -m venv venv
   venv/bin/pip install -U pip
   venv/bin/pip install -U wheel
 
