@@ -123,9 +123,6 @@ venv/bin/pip install -e ./assemblyline-ui
 venv/bin/pip install -e ./assemblyline-v4-service
 venv/bin/pip install -e ./assemblyline_client
 
-# Remove temporary created file during install
-rm -rf assemblyline-base/assemblyline/common/frequency.c
-
 # Add Docker if missing
 if ! type docker &> /dev/null
 then
