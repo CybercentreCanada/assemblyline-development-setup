@@ -97,7 +97,6 @@ ssh-keyscan github.com >> ~/.ssh/known_hosts
 # Clone core repositories
 git clone git@github.com:CybercentreCanada/assemblyline-base.git || git clone https://github.com/CybercentreCanada/assemblyline-base.git || echo "assemblyline-base repo already exists"
 git clone git@github.com:CybercentreCanada/assemblyline-core.git || git clone https://github.com/CybercentreCanada/assemblyline-core.git || echo "assemblyline-core repo already exists"
-git clone git@github.com:CybercentreCanada/assemblyline-service-server.git || git clone https://github.com/CybercentreCanada/assemblyline-service-server.git || echo "assemblyline-service-server repo already exists"
 git clone git@github.com:CybercentreCanada/assemblyline-ui.git || git clone https://github.com/CybercentreCanada/assemblyline-ui.git || echo "assemblyline-ui repo already exists"
 git clone git@github.com:CybercentreCanada/assemblyline_client.git || git clone https://github.com/CybercentreCanada/assemblyline_client.git || echo "assemblyline_client repo already exists"
 git clone git@github.com:CybercentreCanada/assemblyline-service-client.git || git clone https://github.com/CybercentreCanada/assemblyline-service-client.git || echo "assemblyline-service-client repo already exists"
@@ -117,7 +116,6 @@ venv/bin/pip install -U wheel
 venv/bin/pip install -U pytest fakeredis[lua] retrying flake8 pep8 autopep8 ipython
 venv/bin/pip install -e ./assemblyline-base
 venv/bin/pip install -e ./assemblyline-core
-venv/bin/pip install -e ./assemblyline-service-server
 venv/bin/pip install -e ./assemblyline-service-client
 venv/bin/pip install -e ./assemblyline-ui
 venv/bin/pip install -e ./assemblyline-v4-service
