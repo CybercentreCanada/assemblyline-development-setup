@@ -69,6 +69,7 @@ logging:
 
 services:
   preferred_update_channel: dev
+  allow_insecure_registry: true
 
 system:
   type: development
