@@ -1,0 +1,127 @@
+version: "2.4"
+
+services:
+  # Authentication
+  openldap:
+    image: docker.io/bitnamilegacy/openldap:2.6
+    ports:
+      - '389:389'
+    environment:
+      LDAP_PORT_NUMBER: 389
+      LDAP_ROOT: dc=assemblyline,dc=local
+      LDAP_ADMIN_PASSWORD: admin
+      LDAP_USERS: ldap_user
+      LDAP_PASSWORDS: ldap_password
+      LDAP_USER_OU: people
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7
+    environment:
+      - KC_HEALTH_ENABLED=true
+    volumes:
+      - ${PATH_REWRITE:-.}/al_config/keycloak-realm.json:/opt/keycloak/data/import/realm.json
+    command: start-dev --import-realm
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "{ printf 'HEAD /health/ready HTTP/1.0\r
+
+            \r
+
+            ' >&0; grep 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Filestores
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ROOT_USER: al_storage_key
+      MINIO_ROOT_PASSWORD: Ch@ngeTh!sPa33w0rd
+    ports:
+      - "9000:9000"
+    command: server /data
+
+  azure:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    command: azurite-blob --blobHost 0.0.0.0 --blobPort 10000 --skipApiVersionCheck --disableProductStyleUrl
+
+  floci:
+    image: floci/floci
+    environment:
+      - FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED=true
+    ports:
+      - "4566:4566"
+
+  # Datastore
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
+    environment:
+      - xpack.security.enabled=true
+      - discovery.type=single-node
+      - logger.level=WARN
+      - ELASTIC_PASSWORD=devpass
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - "cluster.routing.allocation.disk.watermark.low=10gb"
+      - "cluster.routing.allocation.disk.watermark.high=5gb"
+      - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --silent --fail -u elastic:$$ELASTIC_PASSWORD localhost:9200/_cluster/health || exit 1" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  # Caching
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+      - "6380:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Gateway/Ingress
+  nginx:
+    image: cccs/nginx-ssl-frontend:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - FRONTEND_HOST=172.17.0.1
+      - UI_HOST=172.17.0.1
+      - SOCKET_HOST=172.17.0.1
+      - MCP_HOST=172.17.0.1
+      - KIBANA_HOST=172.17.0.1
+      - FQDN=localhost
+      - MAX_BODY_SIZE=100M
+
+  # Development Environment
+  dev:
+    build:
+      context: .
+      dockerfile: local_dev.Dockerfile
+    command: sleep infinity
+    volumes:
+      - .:/workspace:cached
+      - ./al_config:/etc/assemblyline
+    extra_hosts:
+      - "localhost:host-gateway"
+
+networks:
+  default:
+    name: external

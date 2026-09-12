@@ -1,0 +1,27 @@
+{
+    "name": "Compose Dev Environment",
+    // Path to the docker-compose file relative to this json file
+    "dockerComposeFile": "../docker-compose.yaml",
+    // The primary service you want to develop inside
+    "service": "dev",
+    // The path inside the container to open when connecting
+    "workspaceFolder": "/workspace",
+    // Customizations like extensions or exposed ports
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // General
+                "dbaeumer.vscode-eslint",
+                "ms-azuretools.vscode-docker",
+                "richie5um2.vscode-sort-json",
+                "ms-azuretools.vscode-containers",
+                //Python
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                // Rust
+                "rust-lang.rust-analyzer",
+                "vadimcn.vscode-lldb@1.11.4"
+            ]
+        }
+    }
+}
