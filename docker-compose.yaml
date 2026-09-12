@@ -117,10 +117,16 @@ services:
       dockerfile: local_dev.Dockerfile
     command: sleep infinity
     volumes:
-      - .:/workspace:cached
+      - .:/opt/alv4:cached
       - ./al_config:/etc/assemblyline
     extra_hosts:
       - "localhost:host-gateway"
+
+  registry:
+    image: registry
+    ports:
+      - "32000:5000"
+    restart: always
 
 networks:
   default:

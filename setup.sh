@@ -8,7 +8,7 @@ sudo true
 
 # Install VSCode (preferred IDE by the Assemblyline team)
 sudo sysctl -w fs.inotify.max_user_watches=524288
-sudo snap install code --classic || echo "VSCode already installed"
+sudo whereis code || sudo snap install code --classic
 
 # Add Docker if missing
 if ! type docker &> /dev/null
@@ -29,9 +29,6 @@ fi
 # Setup sudoless docker
 sudo groupadd docker 2>/dev/null || echo "Docker group already exists"
 sudo usermod -aG docker $USER
-
-# Deploy local Docker registry
-sudo docker run -dp 32000:5000 --restart=always --name registry registry || echo "Docker registry already started"
 
 # Create Docker daemon configuration for insecure registry
 sudo mkdir -p /etc/docker/
